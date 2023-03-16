@@ -159,8 +159,18 @@ exports.deleteBlog = async (req, res, next) => {
 
 // Get all blog 2
 exports.getAllBlog = async (req, res, next) => {
+  const searchQuery = req.query.search;
+  console.log("searchQuery : ", searchQuery);
+  const regex = new RegExp(searchQuery, "i");
   try {
-    const blogs = await Blog.find().populate("author", "name email");
+    const blogs = await Blog.find({
+      $or: [
+        { title: regex },
+        { "author.name": regex },
+        { "author.email": regex },
+      ],
+    }).populate("author", "name email");
+
     console.log("123", blogs);
     res.status(200).json({
       success: true,
