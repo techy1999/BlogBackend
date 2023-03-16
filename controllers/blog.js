@@ -196,6 +196,48 @@ exports.getAllBlog = async (req, res, next) => {
   }
 };
 
+//Get single blog detail
+exports.getSingleBlog = async (req, res, next) => {
+  const blogId = req.params.blogId;
+  console.log("blogId ", blogId);
+
+  try {
+    const blog = await Blog.findOne({ _id: blogId })
+      .populate("author", "name email")
+      .select("-__v");
+    console.log("blog", blog);
+    if (blog) {
+      return res.status(200).json({
+        success: true,
+        data: {
+          ...blog._doc,
+          createdAt: blog.createdAt.toLocaleString("en-IN", {
+            timeZone: "Asia/Kolkata",
+          }),
+          updatedAt: blog.updatedAt.toLocaleString("en-IN", {
+            timeZone: "Asia/Kolkata",
+          }),
+          author: {
+            name: blog.author.name,
+            email: blog.author.email,
+          },
+        },
+      });
+    } else {
+      return res.status(404).json({
+        success: false,
+        meesage: "blog not found",
+      });
+    }
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      meesage: "fetch failed",
+      error: error,
+    });
+  }
+};
+
 // Get all the blog of logged in user
 exports.getUserBlog = async (req, res, next) => {
   try {
