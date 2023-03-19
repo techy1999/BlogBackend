@@ -53,7 +53,7 @@ exports.createBlog = async (req, res, next) => {
   }
 
   try {
-    const blog = await Blog.create({ ...req.body, author: req.user.id });
+    const blog = await Blog.create({ ...req.body, author: req.user?.id });
     return res.status(201).json({
       success: true,
       message: "Created successfully",
