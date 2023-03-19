@@ -112,7 +112,7 @@ exports.deleteBlog = async (req, res, next) => {
 
   try {
     // Find blog first...
-    const blog = await Blog.findOne({ _id: blogId, author: userLogged.id });
+    const blog = await Blog.findOne({ _id: blogId, author: userLogged._id });
 
     if (blog) {
       await Blog.deleteOne({ _id: blogId });
