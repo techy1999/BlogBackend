@@ -3,6 +3,7 @@ const router = express.Router();
 const { body, validationResult } = require("express-validator");
 const createPostController = require("../controllers/blog");
 const commentController = require("../controllers/comment");
+const likeBlogController = require("../controllers/like");
 
 const { isAuthenticatedUser } = require("../middleware/auth");
 
@@ -30,6 +31,11 @@ router
   .route("/my-blog")
   .get(isAuthenticatedUser, createPostController.getUserBlog);
 
+// Like a blog
+router
+  .route("/blog/like/:id")
+  .put(isAuthenticatedUser, likeBlogController.likeBlog);
+
 // Comment Routes
 router.post(
   "/comments/:blogId",
@@ -37,10 +43,6 @@ router.post(
   commentController.createComment
 );
 
-router.get(
-  "/comments/:blogId",
-  isAuthenticatedUser,
-  commentController.getCommentsByBlogId
-);
+router.get("/comments/:blogId", commentController.getCommentsByBlogId);
 
 module.exports = router;

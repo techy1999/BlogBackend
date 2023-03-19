@@ -27,11 +27,21 @@ const blogSchema = new mongoose.Schema(
       default: null,
       ref: "User",
     },
+    likes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
   },
   { timestamps: true, createdAt: "created_at", updatedAt: "updated_at" }
 );
 
 // Pre hook to convert the date to a localized string before saving
+
+blogSchema.virtual("likeCount").get(function () {
+  return this.likes.length;
+});
 
 // Exporting farmerSchema as Farmer
 module.exports = mongoose.model("Blog", blogSchema);

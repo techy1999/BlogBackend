@@ -15,10 +15,25 @@ exports.createComment = async (req, res, next) => {
     // if same then he can not comment
     const blog = await Blog.findOne({ _id: blogId });
 
-    if (blog && blog.author == userLogged._id) {
+    if (blog?.author == userLogged?.id) {
       return res.status(400).json({
         success: false,
         message: "you can not comment on own blog",
+      });
+    }
+
+    //Check if the user already comment on the post
+    const commentOnBlog = await Comment.findOne({
+      author: userLogged.id,
+      blog: blogId,
+    });
+
+    //If there is comment on blog then you can not comment on the blog
+    if (commentOnBlog) {
+      //
+      return res.status(400).json({
+        success: false,
+        message: "you already commented on the blog",
       });
     }
     const comment = await Comment.create({

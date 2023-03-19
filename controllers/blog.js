@@ -186,9 +186,11 @@ exports.getAllBlog = async (req, res, next) => {
           name: blog.author.name,
           email: blog.author.email,
         },
+        likeCount: blog.likes?.length,
       })),
     });
   } catch (error) {
+    console.log("err", error);
     res.status(400).json({
       success: false,
       meesage: "fetch failed",

@@ -149,7 +149,7 @@ exports.profile = async (req, res, next) => {
   const userId = req.user._id;
 
   try {
-    const userProfile = await User.findOne({ _id: userId });
+    const userProfile = await User.findOne({ _id: userId }).select("-_id -__v");
 
     console.log("userProfile : ", userProfile);
     if (userProfile) {
@@ -171,6 +171,23 @@ exports.profile = async (req, res, next) => {
         message: "User not found",
       });
     }
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "operation failed",
+    });
+  }
+};
+
+//Will work on it
+exports.updateProfile = async (req, res, next) => {
+  const userId = req.user._id;
+
+  try {
+    return res.status(404).json({
+      success: false,
+      message: "User not found",
+    });
   } catch (error) {
     return res.status(500).json({
       success: false,
