@@ -23,6 +23,8 @@ const blogSchema = Joi.object({
 });
 
 exports.createBlog = async (req, res, next) => {
+  const userLogged = req.user;
+  console.log("userLogged ", userLogged);
   // Validate req.body using the registerSchema
   const { error, value } = blogSchema.validate(req.body, {
     abortEarly: false,
@@ -53,7 +55,7 @@ exports.createBlog = async (req, res, next) => {
   }
 
   try {
-    const blog = await Blog.create({ ...req.body, author: req.user?.id });
+    const blog = await Blog.create({ ...req.body, author: userLogged._id });
     return res.status(201).json({
       success: true,
       message: "Created successfully",
@@ -183,8 +185,8 @@ exports.getAllBlog = async (req, res, next) => {
           timeZone: "Asia/Kolkata",
         }),
         author: {
-          name: blog.author.name,
-          email: blog.author.email,
+          name: blog.author?.name,
+          email: blog.author?.email,
         },
         likeCount: blog.likes?.length,
       })),
@@ -193,7 +195,7 @@ exports.getAllBlog = async (req, res, next) => {
     console.log("err", error);
     res.status(400).json({
       success: false,
-      meesage: "fetch failed",
+      meesage: `fetch failed ${error}`,
     });
   }
 };
