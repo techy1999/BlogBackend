@@ -76,14 +76,18 @@ exports.updateBlog = async (req, res, next) => {
 
   try {
     // Find blog first...
-    const blog = await Blog.findOne({ _id: blogId, author: userLogged.id });
+    const blog = await Blog.findOne({ _id: blogId });
+
+    console.log("blog", blog);
 
     if (blog) {
       const result = await Blog.updateOne(
-        { _id: blogId, author: userLogged._id },
+        { _id: blogId },
         {
           title: req.body.title,
           content: req.body.content,
+          image_url: req.body.image_url,
+          video_url: req.body.video_url,
         }
       );
 
