@@ -106,17 +106,17 @@ exports.updateBlog = async (req, res, next) => {
 };
 
 exports.deleteBlog = async (req, res, next) => {
-  const userLogged = req.user;
   const blogId = req.params.id;
-  //Checking req.body is empty
 
   try {
-    // Find blog first...
-    const blog = await Blog.findOne({ _id: blogId, author: userLogged?._id });
+    const blog = await Blog.findOne({ _id: blogId });
 
     if (blog) {
-      await Blog.deleteOne({ _id: blogId });
-      return res.status(200).json({
+      const status = await Blog.deleteOne({
+        _id: blogId,
+      });
+
+      return res.status(202).json({
         success: true,
         meesage: `delete successful`,
       });
