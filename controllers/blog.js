@@ -70,13 +70,15 @@ exports.createBlog = async (req, res, next) => {
 };
 
 exports.updateBlog = async (req, res, next) => {
-  const userLogged = req.user;
+  console.log("Inside updateBlog .... ");
   const blogId = req.params.id;
   //Checking req.body is empty
+  console.log("BlogId : ", blogId);
+  console.log("req.body", req.body);
 
   try {
     // Find blog first...
-    const blog = await Blog.findOne({ _id: blogId });
+    const blog = await Blog.findOne({ _id: req.params.id });
 
     console.log("blog", blog);
 
@@ -91,6 +93,7 @@ exports.updateBlog = async (req, res, next) => {
         }
       );
 
+      console.log("result : ", result);
       return res.status(200).json({
         success: true,
         meesage: `update successful`,
