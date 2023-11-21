@@ -1,5 +1,6 @@
 // Importing model
 const User = require("../models/user");
+const Blog = require("../models/blog");
 const sendToken = require("../utils/jwtToken");
 const bcrypt = require("bcryptjs");
 
@@ -151,6 +152,11 @@ exports.profile = async (req, res, next) => {
   try {
     const userProfile = await User.findOne({ _id: userId }).select("-_id -__v");
 
+    const blogOfUser = await Blog.find({
+      author: userProfile.id,
+    }).countDocuments();
+    console.log("blogOfUser :", blogOfUser);
+
     console.log("userProfile : ", userProfile);
     if (userProfile) {
       return res.status(200).json({
@@ -163,6 +169,7 @@ exports.profile = async (req, res, next) => {
           updatedAt: userProfile.updatedAt.toLocaleString("en-IN", {
             timeZone: "Asia/Kolkata",
           }),
+          blogOfUser,
         },
       });
     } else {
@@ -179,15 +186,32 @@ exports.profile = async (req, res, next) => {
   }
 };
 
-//Will work on it
 exports.updateProfile = async (req, res, next) => {
+  console.log("inside uppdate profile of the user");
   const userId = req.user._id;
 
+  const { name, social_profile, experience } = req.body;
   try {
-    return res.status(404).json({
-      success: false,
-      message: "User not found",
-    });
+    const user = await User.findById({ _id: userId });
+    if (user) {
+      // Perform the update operation on the user object
+      user.name = name ? name : user.name;
+      user.social_profile = social_profile
+        ? social_profile
+        : user.social_profile;
+      user.experience = experience ? experience : user.experience;
+
+      await user.save(); // Save the updated user object
+      return res.status(200).json({
+        success: true,
+        message: "User update successful",
+      });
+    } else {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
   } catch (error) {
     return res.status(500).json({
       success: false,

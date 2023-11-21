@@ -43,6 +43,10 @@ router.post(
   commentController.createComment
 );
 
-router.get("/comments/:blogId", commentController.getCommentsByBlogId);
+router.get(
+  "/comments/:blogId",
+  isAuthenticatedUser,
+  commentController.getCommentsByBlogId
+);
 
 module.exports = router;

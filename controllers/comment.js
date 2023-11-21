@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 
 exports.createComment = async (req, res, next) => {
   const userLogged = req.user;
+  console.log("userLogged ", userLogged);
   let blogId = req.params.blogId;
   //   blogId = new mongoose.Types.ObjectId(blogId);
   //   console.log("userLogged", userLogged);

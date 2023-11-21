@@ -247,6 +247,11 @@ exports.getSingleBlog = async (req, res, next) => {
 
 // Get all the blog of logged in user
 exports.getUserBlog = async (req, res, next) => {
+  console.log("Inside GetUserBlog");
+
+  const user = req.user;
+  console.log("user ", user);
+
   try {
     // Get all the Blogs of the loggedIn user
     const userLoggedBlogs = await Blog.find({ author: req.user.id });

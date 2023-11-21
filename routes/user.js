@@ -14,4 +14,11 @@ router.post("/register", createUserController.register);
 // Profile route /blog/ GET -> To get Blogs
 router.get("/profile", isAuthenticatedUser, createUserController.profile);
 
+// Profile route /blog/ GET -> To get Blogs
+router.patch(
+  "/profile",
+  isAuthenticatedUser,
+  createUserController.updateProfile
+);
+
 module.exports = router;
