@@ -23,6 +23,12 @@ app.use(morgan());
 app.use("/api", blogRoutes);
 app.use("/api/user", userRoutes);
 
+app.get("/api/test", (req,res)=>{
+  return res.status(200).json({
+    message:"Test route is working...."
+  })
+});
+
 // Listen on this port
 app.listen(8000, () => {
   console.log("Server started on port 8000");
