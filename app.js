@@ -33,7 +33,8 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get("/api/test", (req,res)=>{
   return res.status(200).json({
-    message:"Test route is working...."
+    message:"Test route is working....",
+    date:[]
   })
 });
 
