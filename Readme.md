@@ -1,5 +1,13 @@
 # Nomads Blog Backend
 
+## System Design 
+
+![nomads solutiondd](https://github.com/techy1999/BlogBackend/assets/116334237/fb27607c-3af8-402d-9390-29f2a82dd503)
+
+
+
+
+
 ### Technology
 - Nodejs
 - Express
@@ -42,3 +50,12 @@ Tools -
 }
 
 ```
+
+## Check API Documentation at END point
+
+> /api-docs
+
+![apidocs](https://github.com/techy1999/BlogBackend/assets/116334237/c7864cf6-7ea1-4644-9231-ba12adf53d6b)
+
+
+
