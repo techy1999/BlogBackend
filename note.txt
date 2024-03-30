@@ -20,3 +20,15 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MGI5YjFkNmQ4ZGFkZjI4NzZkYWE4MCI
 username-test123@gmail.com
 password-1234
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MGI5Y2ZmOGY1NjZkZDhjMzEwZjNmNCIsImlhdCI6MTY3ODQ4MjcwOSwiZXhwIjoxNjc5MDg3NTA5fQ.eaI8fu-vATvdayiUhXLd9fbOyc3tWclrH2wxp06vxQI
+
+# Response Format
+```
+
+{
+  "error": "Unauthorized access.",
+  "message": null,
+  "httpStatus": 401,
+  "data": null
+}
+
+```
