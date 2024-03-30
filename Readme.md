@@ -1,5 +1,5 @@
-# Nomads Blog Backend
-
+ [![Node.js CI](https://github.com/techy1999/BlogBackend/actions/workflows/node.js.yml/badge.svg)](https://github.com/techy1999/BlogBackend/actions/workflows/node.js.yml)
+ # Nomads Blog Backend
 ## System Design 
 
 ![nomads solutiondd](https://github.com/techy1999/BlogBackend/assets/116334237/fb27607c-3af8-402d-9390-29f2a82dd503)
