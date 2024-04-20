@@ -59,3 +59,20 @@ Tools -
 
 
 
+## How Creating Indexing mongodb efficiently increase our search query
+- MongoDB mainly uses ```COLSCAN ``` and ``` IXSCAN```
+- Current we have only index on title ```title_1```, as it will impact write performance.Because Internally Indexes uses B-tree which take time to sort and arrange in Balancing the tree.
+  
+## See below screenshot to understand it.
+> Before Creating Index, we search all through the document to find out our document, see ```documentscaned-27``` and ```returned-6 ```
+![Left Image](https://github.com/techy1999/BlogBackend/assets/116334237/e1d305ca-7269-47ca-b728-2701512bdab3) 
+
+
+> After Creating Index, we search onB-tree , see ```documentscaned-6``` and ```returned-6 ```
+![Right Image](https://github.com/techy1999/BlogBackend/assets/116334237/d9deb0ca-8d5a-4165-837e-34a20de91e23)
+
+
+
+
+
+
