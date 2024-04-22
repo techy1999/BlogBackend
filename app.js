@@ -29,11 +29,11 @@ app.use("/api", blogRoutes);
 app.use("/api/user", userRoutes);
 
 // documentation endpoint for autogen
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.get("/api/test", (req,res)=>{
+app.get("/api/status", (req,res)=>{
   return res.status(200).json({
-    message:"Test route is working....",
+    message:"API Server is running...",
     date:[]
   })
 });

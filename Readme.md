@@ -20,6 +20,8 @@
     - Access Env value, in future replace with aws parameter fetch
 - > mongoose 
     - Mongodb ODM
+->  express-rate-limit
+    - Rate limiting on the request , keep it updating depending on requirements.
 
 Tools - 
 - aws for hosting
