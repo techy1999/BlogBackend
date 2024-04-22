@@ -1,0 +1,1 @@
+// Write validation for blog model

@@ -4,12 +4,12 @@ const mongoose = require("mongoose");
 
 exports.createComment = async (req, res, next) => {
   const userLogged = req.user;
-  console.log("userLogged ", userLogged);
+  // console.log("userLogged ", userLogged);
   let blogId = req.params.blogId;
   //   blogId = new mongoose.Types.ObjectId(blogId);
   //   console.log("userLogged", userLogged);
   const { content } = req.body;
-  console.log("content", content, blogId);
+  // console.log("content", content, blogId);
 
   try {
     // First check if the user is same whose blog is
