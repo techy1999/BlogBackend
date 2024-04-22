@@ -76,8 +76,6 @@ exports.updateBlog = async (req, res, next) => {
     // Find blog first...
     const blog = await Blog.findOne({ _id: req.params.id });
 
-    console.log("blog", blog);
-
     if (blog) {
       const result = await Blog.updateOne(
         { _id: blogId },
@@ -89,7 +87,6 @@ exports.updateBlog = async (req, res, next) => {
         }
       );
 
-      console.log("result : ", result);
       return res.status(200).json({
         success: true,
         meesage: `update successful`,

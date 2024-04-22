@@ -9,6 +9,10 @@ require("dotenv").config();
 //swagger documentation autogen 
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger-output.json")
+const helmet = require("helmet")
+
+//securit principal to hide some of headers.
+app.use(helmet());
 
 //To post method
 app.use(express.json());

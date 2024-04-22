@@ -20,6 +20,8 @@
     - Access Env value, in future replace with aws parameter fetch
 - > mongoose 
     - Mongodb ODM
+- > Helmet
+    - Security package to increase the security of the application.
 
 Tools - 
 - aws for hosting
