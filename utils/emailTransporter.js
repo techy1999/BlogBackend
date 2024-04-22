@@ -1,13 +1,16 @@
 const nodemailer = require("nodemailer");
 
-const emailTransporter = nodemailer.createTestAccount({
+require("dotenv").config();
+
+const emailTransportor = nodemailer.createTransport({
     host:'smtp.gmail.com',
     port: 465,
-    secure:true,
+    secure: true,
     auth:{
-        user:process.env.EMAIL_ID,
-        pass: process.env.EMAIL_PASSWORD
+        user: process.env.SMTP_EMAIL_ID,
+        pass: process.env.SMTP_EMAIL_PASSWORD,
     },
-})
+});
 
-module.exports = emailTransporter
+
+module.exports={emailTransportor}

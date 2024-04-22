@@ -32,6 +32,7 @@ app.use(morgan());
 app.use("/api", blogRoutes);
 app.use("/api/user", userRoutes);
 
+
 // documentation endpoint for autogen
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
