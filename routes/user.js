@@ -21,4 +21,10 @@ router.patch(
   createUserController.updateProfile
 );
 
+// ContactUs route /contact/ POST -> To create a notification to user and admin.
+router.post(
+  "/contact-us",
+  createUserController.contactUs
+);
+
 module.exports = router;
