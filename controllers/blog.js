@@ -24,7 +24,7 @@ const blogSchema = Joi.object({
 
 exports.createBlog = async (req, res, next) => {
   const userLogged = req.user;
-  console.log("userLogged ", userLogged);
+  // console.log("userLogged ", userLogged);
   // Validate req.body using the registerSchema
   const { error, value } = blogSchema.validate(req.body, {
     abortEarly: false,
@@ -76,8 +76,6 @@ exports.updateBlog = async (req, res, next) => {
     // Find blog first...
     const blog = await Blog.findOne({ _id: req.params.id });
 
-    console.log("blog", blog);
-
     if (blog) {
       const result = await Blog.updateOne(
         { _id: blogId },
@@ -89,7 +87,6 @@ exports.updateBlog = async (req, res, next) => {
         }
       );
 
-      console.log("result : ", result);
       return res.status(200).json({
         success: true,
         meesage: `update successful`,
@@ -165,7 +162,7 @@ exports.deleteBlog = async (req, res, next) => {
 // Get all blog 2
 exports.getAllBlog = async (req, res, next) => {
   const searchQuery = req.query.search;
-  console.log("searchQuery : ", searchQuery);
+  // console.log("searchQuery : ", searchQuery);
   const regex = new RegExp(searchQuery, "i");
   try {
     const blogs = await Blog.find({
@@ -176,7 +173,7 @@ exports.getAllBlog = async (req, res, next) => {
       ],
     }).populate("author", "name email");
 
-    console.log("123", blogs);
+    // console.log("123", blogs);
     res.status(200).json({
       success: true,
       data: blogs.map((blog) => ({
@@ -247,10 +244,10 @@ exports.getSingleBlog = async (req, res, next) => {
 
 // Get all the blog of logged in user
 exports.getUserBlog = async (req, res, next) => {
-  console.log("Inside GetUserBlog");
+  // console.log("Inside GetUserBlog");
 
   const user = req.user;
-  console.log("user ", user);
+  // console.log("user ", user);
 
   try {
     // Get all the Blogs of the loggedIn user

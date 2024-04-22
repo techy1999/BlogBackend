@@ -9,6 +9,10 @@ require("dotenv").config();
 //swagger documentation autogen 
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger-output.json")
+const helmet = require("helmet")
+
+//securit principal to hide some of headers.
+app.use(helmet());
 
 //To post method
 app.use(express.json());
@@ -30,11 +34,11 @@ app.use("/api/user", userRoutes);
 
 
 // documentation endpoint for autogen
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.get("/api/test", (req,res)=>{
+app.get("/api/status", (req,res)=>{
   return res.status(200).json({
-    message:"Test route is working....",
+    message:"API Server is running...",
     date:[]
   })
 });

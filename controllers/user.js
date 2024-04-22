@@ -111,7 +111,7 @@ exports.register = async (req, res, next) => {
       });
     }
   } catch (error) {
-    console.log("error", error);
+    // console.log("error", error);
     return res.status(400).json({
       success: false,
       meesage: `Created failed`,
@@ -139,7 +139,7 @@ exports.login = async (req, res, next) => {
         user.password
       );
 
-      console.log("hashPasswordCheck ", hashPasswordCheck);
+      // console.log("hashPasswordCheck ", hashPasswordCheck);
 
       if (hashPasswordCheck) {
         sendToken(user, res);
@@ -177,9 +177,9 @@ exports.profile = async (req, res, next) => {
     const blogOfUser = await Blog.find({
       author: userProfile.id,
     }).countDocuments();
-    console.log("blogOfUser :", blogOfUser);
+    // console.log("blogOfUser :", blogOfUser);
 
-    console.log("userProfile : ", userProfile);
+    // console.log("userProfile : ", userProfile);
     if (userProfile) {
       return res.status(200).json({
         success: true,
