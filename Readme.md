@@ -28,6 +28,8 @@
     - Access Env value, in future replace with aws parameter fetch
 - > mongoose 
     - Mongodb ODM
+- > Helmet
+    - Security package to increase the security of the application.
 - >  express-rate-limit
     - Rate limiting on the request , keep it updating depending on requirements.
 
