@@ -9,7 +9,6 @@ exports.createComment = async (req, res, next) => {
   //   blogId = new mongoose.Types.ObjectId(blogId);
   //   console.log("userLogged", userLogged);
   const { content } = req.body;
-  // console.log("content", content, blogId);
 
   try {
     // First check if the user is same whose blog is
@@ -58,7 +57,7 @@ exports.createComment = async (req, res, next) => {
 
 exports.getCommentsByBlogId = async (req, res, next) => {
   const { blogId } = req.params;
-  console.log("blogId", blogId);
+ 
   try {
     const comments = await Comment.find({ blog: blogId })
       .populate("author", "name email")

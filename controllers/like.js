@@ -4,7 +4,6 @@ const Blog = require("../models/blog");
 exports.likeBlog = async (req, res) => {
   try {
     const blog = await Blog.findById(req.params.id);
-    console.log("blog", blog);
     if (!blog) {
       return res
         .status(404)
