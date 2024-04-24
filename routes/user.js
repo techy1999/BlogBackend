@@ -4,21 +4,27 @@ const { body, validationResult } = require("express-validator");
 const createUserController = require("../controllers/user");
 // Importing model
 const { isAuthenticatedUser } = require("../middleware/auth");
-
+const { rateLimiter } = require("../middleware/rateLimiter");
 // Login route /blog/ POST -> Create
-router.post("/login", createUserController.login);
+router.post("/login", rateLimiter,createUserController.login);
 
 // Register route /blog/ GET -> To get Blogs
-router.post("/register", createUserController.register);
+router.post("/register",rateLimiter, createUserController.register);
 
 // Profile route /blog/ GET -> To get Blogs
-router.get("/profile", isAuthenticatedUser, createUserController.profile);
+router.get("/profile", rateLimiter, isAuthenticatedUser, createUserController.profile);
 
 // Profile route /blog/ GET -> To get Blogs
 router.patch(
   "/profile",
   isAuthenticatedUser,
   createUserController.updateProfile
+);
+
+// ContactUs route /contact/ POST -> To create a notification to user and admin.
+router.post(
+  "/contact-us",
+  createUserController.contactUs
 );
 
 module.exports = router;

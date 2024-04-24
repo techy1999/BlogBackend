@@ -24,7 +24,7 @@ const blogSchema = Joi.object({
 
 exports.createBlog = async (req, res, next) => {
   const userLogged = req.user;
-  console.log("userLogged ", userLogged);
+  // console.log("userLogged ", userLogged);
   // Validate req.body using the registerSchema
   const { error, value } = blogSchema.validate(req.body, {
     abortEarly: false,
