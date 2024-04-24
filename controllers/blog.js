@@ -76,8 +76,6 @@ exports.updateBlog = async (req, res, next) => {
     // Find blog first...
     const blog = await Blog.findOne({ _id: req.params.id });
 
-    console.log("blog", blog);
-
     if (blog) {
       const result = await Blog.updateOne(
         { _id: blogId },
@@ -89,7 +87,6 @@ exports.updateBlog = async (req, res, next) => {
         }
       );
 
-      console.log("result : ", result);
       return res.status(200).json({
         success: true,
         meesage: `update successful`,
@@ -122,11 +119,15 @@ exports.deleteBlog = async (req, res, next) => {
       return res.status(202).json({
         success: true,
         meesage: `delete successful`,
+        error:null,
+        data:null
       });
     } else {
       return res.status(404).json({
         success: false,
         meesage: `Blog not found`,
+        error:null,
+        data:null
       });
     }
   } catch (error) {
@@ -137,36 +138,15 @@ exports.deleteBlog = async (req, res, next) => {
   }
 };
 
-// Get all blog
-// exports.getAllBlog = async (req, res, next) => {
-//   try {
-//     const blogs = await Blog.find();
-//     console.log("123", blogs);
-//     res.status(200).json({
-//       success: true,
-//       data: blogs.map((blog) => ({
-//         ...blog._doc,
-//         createdAt: blog.createdAt.toLocaleString("en-IN", {
-//           timeZone: "Asia/Kolkata",
-//         }),
-//         updatedAt: blog.updatedAt.toLocaleString("en-IN", {
-//           timeZone: "Asia/Kolkata",
-//         }),
-//       })),
-//     });
-//   } catch (error) {
-//     res.status(400).json({
-//       success: false,
-//       meesage: "fetch failed",
-//     });
-//   }
-// };
-
-// Get all blog 2
+// Get all blog 
 exports.getAllBlog = async (req, res, next) => {
   const searchQuery = req.query.search;
-  console.log("searchQuery : ", searchQuery);
+  const page = parseInt(req.query.page);
+  const limit = parseInt(req.query.limit);
+  const skip = (page-1)*limit;
   const regex = new RegExp(searchQuery, "i");
+
+  
   try {
     const blogs = await Blog.find({
       $or: [
@@ -174,12 +154,13 @@ exports.getAllBlog = async (req, res, next) => {
         { "author.name": regex },
         { "author.email": regex },
       ],
-    }).populate("author", "name email");
-
-    console.log("123", blogs);
+    }).populate("author", "name email").skip(skip).limit(limit).select("-__V");
+    const  blogsCount = await Blog.countDocuments({ $or:[{title:regex}]});
+    
     res.status(200).json({
       success: true,
-      data: blogs.map((blog) => ({
+      data: {
+        data: blogs.map((blog) => ({
         ...blog._doc,
         createdAt: blog.createdAt.toLocaleString("en-IN", {
           timeZone: "Asia/Kolkata",
@@ -192,7 +173,10 @@ exports.getAllBlog = async (req, res, next) => {
           email: blog.author?.email,
         },
         likeCount: blog.likes?.length,
-      })),
+        })),
+        currentPage: page,
+        totalPages: Math.ceil(blogsCount / limit),
+      }
     });
   } catch (error) {
     console.log("err", error);
@@ -206,13 +190,11 @@ exports.getAllBlog = async (req, res, next) => {
 //Get single blog detail
 exports.getSingleBlog = async (req, res, next) => {
   const blogId = req.params.blogId;
-  console.log("blogId ", blogId);
 
   try {
     const blog = await Blog.findOne({ _id: blogId })
       .populate("author", "name email")
       .select("-__v");
-    console.log("blog", blog);
     if (blog) {
       return res.status(200).json({
         success: true,
@@ -247,10 +229,8 @@ exports.getSingleBlog = async (req, res, next) => {
 
 // Get all the blog of logged in user
 exports.getUserBlog = async (req, res, next) => {
-  console.log("Inside GetUserBlog");
 
   const user = req.user;
-  console.log("user ", user);
 
   try {
     // Get all the Blogs of the loggedIn user

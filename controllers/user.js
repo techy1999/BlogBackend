@@ -155,7 +155,7 @@ exports.profile = async (req, res, next) => {
     const blogOfUser = await Blog.find({
       author: userProfile.id,
     }).countDocuments();
-    console.log("blogOfUser :", blogOfUser);
+   
 
     console.log("userProfile : ", userProfile);
     if (userProfile) {
