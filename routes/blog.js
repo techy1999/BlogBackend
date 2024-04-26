@@ -43,9 +43,9 @@ router.post(
   commentController.createComment
 );
 
+//Get all user comments on particular blogs.
 router.get(
   "/comments/:blogId",
-  isAuthenticatedUser,
   commentController.getCommentsByBlogId
 );
 
