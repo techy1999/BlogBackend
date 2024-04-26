@@ -11,7 +11,7 @@ MVC-model view controller
 
 - npm start by creating script  in package.json
 - Script - "start":"nodemon app"
-ProdDB - mongodb+srv://sudhanshuraj89:Jarvis89@cluster0.i0hds.mongodb.net/BlogApp
+
 
 username-test12@gmail.com
 password-123

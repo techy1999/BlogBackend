@@ -13,9 +13,6 @@ exports.isAuthenticatedUser = async (req, res, next) => {
     token = req.headers.authorization.split(" ")[1];
   }
 
-  console.log("Inside isAuthenticatedUser ", token);
-  console.log("token ", req.headers.authorization);
-
   if (!token) {
     return next(
       res.send({
@@ -29,10 +26,8 @@ exports.isAuthenticatedUser = async (req, res, next) => {
 
   // Verify jwt
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
-  console.log("decoded", decoded);
 
   const userExist = await User.findById(decoded.id);
-  console.log("userExist ", userExist);
   req.user = userExist;
 
   next();

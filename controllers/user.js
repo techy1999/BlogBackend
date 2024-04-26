@@ -3,6 +3,9 @@ const User = require("../models/user");
 const Blog = require("../models/blog");
 const sendToken = require("../utils/jwtToken");
 const bcrypt = require("bcryptjs");
+const { sendMail } = require("../services/mail.service")
+const { emailMessageToUser } = require("../constants/message/message")
+require("dotenv").config();
 
 const Joi = require("joi");
 
@@ -27,6 +30,25 @@ const registerSchema = Joi.object({
     "any.required": "social_profile is required",
   }),
 });
+
+
+const contactUsSchema = Joi.object({
+  message: Joi.string().min(10).required().messages({
+    "string.message": "message must be at least 10 characters long",
+    "any.required": "name is required",
+  }),
+  email: Joi.string().min(3).required().email().messages({
+    "string.email": "email must be at least 3 characters long",
+    "any.required": "email is required",
+  }),
+  subject: Joi.string().min(5).required().messages({
+    "string.subject": "subject must be at least 5 characters long",
+    "any.required": "subject is required",
+  }),
+});
+
+
+
 
 exports.register = async (req, res, next) => {
   // Validate req.body using the registerSchema
@@ -89,7 +111,7 @@ exports.register = async (req, res, next) => {
       });
     }
   } catch (error) {
-    console.log("error", error);
+    // console.log("error", error);
     return res.status(400).json({
       success: false,
       meesage: `Created failed`,
@@ -117,7 +139,7 @@ exports.login = async (req, res, next) => {
         user.password
       );
 
-      console.log("hashPasswordCheck ", hashPasswordCheck);
+      // console.log("hashPasswordCheck ", hashPasswordCheck);
 
       if (hashPasswordCheck) {
         sendToken(user, res);
@@ -155,9 +177,8 @@ exports.profile = async (req, res, next) => {
     const blogOfUser = await Blog.find({
       author: userProfile.id,
     }).countDocuments();
-    console.log("blogOfUser :", blogOfUser);
+   
 
-    console.log("userProfile : ", userProfile);
     if (userProfile) {
       return res.status(200).json({
         success: true,
@@ -219,3 +240,53 @@ exports.updateProfile = async (req, res, next) => {
     });
   }
 };
+
+
+exports.contactUs = async (req, res) => {
+  console.log("Inside contact js");
+
+  // Validate req.body using the registerSchema
+  const { error, value } = contactUsSchema.validate(req.body, {
+    abortEarly: false,
+  });
+  if (error) {
+    const errors = {};
+    error.details.forEach((err) => {
+      errors[err.path[0]] = err.message;
+    });
+    return res.status(400).json({
+      success: false,
+      message: "Validation error",
+      errors: errors,
+      data:null,
+    });
+  }
+
+  const { email, subject, message } = req.body;
+  try {
+
+    //TODO:: Think to add message QUEUE HERE,
+    //To admin
+    await sendMail(process.env.RECEIPT_EMAIL_ID, subject, `${message} and email is ${email}`);
+
+    //To User for confirmation.
+    await sendMail(email, "Thank you !! , Confirmation Email", emailMessageToUser);
+
+    console.log(email);
+
+    return res.status(200).json({
+      success: true,
+      message: "Get back to you soon.",
+      error: null,
+      data: null,
+    })
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "",
+      error: "Something went wrong, Email not sent!",
+      data: null,
+    })
+  }
+
+}
